@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Vote for Candidate</h2>
+
+    <p>Candidate A Votes: {{ votes['Candidate A'] }}</p>
+    <p>Candidate B Votes: {{ votes['Candidate B'] }}</p>
+
+    <button onclick="castVote('Candidate A')">Vote Candidate A</button>
+    <button onclick="castVote('Candidate B')">Vote Candidate B</button>
+</div>
+
+<script>
+function castVote(candidate) {
+    fetch('/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ candidate: candidate })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        location.reload();
+    });
+}
+</script>
+
+</body>
+</html>
